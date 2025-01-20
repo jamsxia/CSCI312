@@ -19,17 +19,14 @@ fringe (Node left _ right) = fringe left ++ fringe right
 isBST :: IntTree -> Bool
 isBST tree = isBSTHelper tree Nothing Nothing
   where
-    -- Helper function with valid range (min, max) for each subtree
     isBSTHelper :: IntTree -> Maybe Int -> Maybe Int -> Bool
     isBSTHelper Empty _ _ = True  
     isBSTHelper (Node left value right) minVal maxVal =
-      -- Check if the current node's value is within the valid range
       case (minVal, maxVal) of
         (Just minV, Just maxV) -> value > minV && value < maxV
         (Just minV, Nothing) -> value > minV
         (Nothing, Just maxV) -> value < maxV
         (Nothing, Nothing) -> True
-      -- Recursively check the left and right subtrees with updated ranges
       && isBSTHelper left minVal (Just value)
       && isBSTHelper right (Just value) maxVal
 
